@@ -1,68 +1,104 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+:root,
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat Alternates", "Helvetica Neue", Arial, sans-serif;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+* {
+    font-family: inherit;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.timer-card input::-webkit-outer-spin-button,
+.timer-card input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.timer-card input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
+
+.timer-progress {
+    --timer-progress: 0;
+    position: relative;
+    padding: 0.5rem;
+    border-radius: 1.75rem;
+    background:
+        conic-gradient(
+            rgba(255, 180, 0, 0.95) calc(var(--timer-progress, 0) * 1turn),
+            rgba(255, 255, 255, 0.08) 0
+        );
+    transition: filter 0.35s ease, background 0.2s linear;
+}
+
+.timer-progress::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle, rgba(255, 180, 0, 0.5), transparent 60%);
+    filter: blur(18px);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: -1;
+}
+
+.timer-progress--active {
+    filter: drop-shadow(0 0 18px rgba(255, 180, 0, 0.4));
+}
+
+.timer-progress--active::before {
+    opacity: 1;
+}
+
+.timer-card {
+    border-radius: 1.4rem;
+    box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.45);
+}
+
+.timer-glow {
+    position: relative;
+    padding: 0.4rem;
+    border-radius: 1.75rem;
+    isolation: isolate;
+}
+
+.timer-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50%, rgba(255, 165, 0, 0.85), rgba(255, 115, 0, 0.25), rgba(0, 0, 0, 0));
+    opacity: 0;
+    filter: blur(12px);
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.timer-glow--active::before {
+    opacity: 1;
+    animation: timerGlowPulse 1.6s ease-in-out infinite;
+}
+
+.timer-shell {
+    border-radius: 1.4rem;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes timerGlowPulse {
+    0% {
+        filter: blur(12px) drop-shadow(0 0 10px rgba(255, 165, 0, 0.4));
+    }
+    50% {
+        filter: blur(18px) drop-shadow(0 0 24px rgba(255, 200, 0, 0.7));
+    }
+    100% {
+        filter: blur(12px) drop-shadow(0 0 10px rgba(255, 165, 0, 0.4));
+    }
+}
+
